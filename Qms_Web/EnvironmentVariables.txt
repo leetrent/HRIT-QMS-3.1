@@ -1,0 +1,15 @@
+#########################################################################################
+# Citrix Desktop DTDv5-3
+#########################################################################################
+# DEV
+#########################################################################################
+set APPSETTINGS_DIRECTORY=E:\HRIT\QMS\AppSettings
+set LOGFILE_DIRECTORY=E:\HRIT\QMS\Logs
+set ASPNETCORE_ENVIRONMENT=Development
+set LOCALHOST_EMAIL=lee.trent@gsa.gov
+set LOCALHOST_NAME=leettrent
+echo %APPSETTINGS_DIRECTORY%
+echo %LOGFILE_DIRECTORY%
+echo %ASPNETCORE_ENVIRONMENT%
+echo %LOCALHOST_EMAIL%
+echo %LOCALHOST_NAME%

@@ -1,0 +1,18 @@
+1. From the command line (Windows/Mac/Linux):
+    #####dotnet publish -c Release -r rhel-x64 --self-contained true
+
+    dotnet publish -c Release -r rhel-x64
+
+2. From File Explorer (Windows):
+    cd qms-web\QMS\QMS\bin\Release\netcoreapp2.2\rhel-x64
+    Compress (zip) the "publish" folder
+    Rename publish.zip to QMS.zip
+    
+3. Upload QMS.zip (Windows) to:
+\\e04tcv-CIFS02\OCIO\DevDotNet\QMS\
+
+4. Copy deploy_me.trg 
+from:
+\\e04tcv-CIFS02\OCIO\DevDotNet
+to:
+\\e04tcv-CIFS02\OCIO\DevDotNet\QMS\

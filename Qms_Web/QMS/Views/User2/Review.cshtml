@@ -1,0 +1,20 @@
+@await Component.InvokeAsync("UAUser2CreateUpdate")
+
+
+@section Scripts {
+    <script>
+        window.addEventListener("load", function () {
+            document.getElementById("createOrUpdateUserEmail").disabled = true;
+            document.getElementById("createOrUpdateUserDisplayName").disabled = true;
+            document.getElementById("createOrUpdateUserOrganization").disabled = true;
+            document.getElementById("createOrUpdateUserManager").disabled = true;
+
+            for (let index = 1; index <= 100; index++) {
+                let checkboxTest = document.getElementById(`createOrUpdateRoleForUser-${index}`);
+                if (checkboxTest) {
+                    checkboxTest.disabled = true;
+                }
+            }
+        });
+    </script>
+}

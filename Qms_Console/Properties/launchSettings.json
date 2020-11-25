@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "QmsCore": {
+      "commandName": "Project",
+      "commandLineArgs": "\"dev\""
+    }
+  }
+}

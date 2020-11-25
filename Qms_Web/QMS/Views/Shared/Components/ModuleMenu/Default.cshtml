@@ -1,0 +1,55 @@
+    @model List<QmsCore.UIModel.ModuleMenuItem>
+    
+        <div class="row bg-dark">
+            <div class="col-6">
+              <div class="list-group list-group-horizontal" id="list-tab" role="tablist">
+                @{
+                  foreach (var firstTierMenu in Model)
+                  {
+                    string firstTierMenuId  = $"first-tier-menu-{firstTierMenu.ModuleMenuItemId}";
+                    string secondTierMenuId = $"second-tier-menu-{firstTierMenu.ModuleMenuItemId}";
+                    <a  
+                        class="list-group-item list-group-item-action p-2 first-tier-menu-link" 
+                        id="@firstTierMenuId"
+                        data-toggle="list" 
+                        href="#@secondTierMenuId" 
+                        role="tab" 
+                        onmouseover="click();"
+                        aria-controls="@firstTierMenu.Title">@firstTierMenu.Title</a>
+                  }
+                }
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+              <div class="tab-content" id="nav-tabContent">
+                @{
+                    foreach (var firstTierMenu in Model)
+                    {
+                      string firstTierMenuId  = $"first-tier-menu-{firstTierMenu.ModuleMenuItemId}";
+                      string secondTierMenuId = $"second-tier-menu-{firstTierMenu.ModuleMenuItemId}";
+                      string secondTierMenuContent = $"{firstTierMenu.Title} Content ...";
+                      <div 
+                        class="tab-pane fade" 
+                        id="@secondTierMenuId" 
+                        role="tabpanel" 
+                        aria-labelledby="@firstTierMenuId">
+                          <ul class="list-group list-group-horizontal">
+                          @foreach(var secondTierMenu in firstTierMenu.MenuItems) 
+                          {
+                            <li class="list-group-item p-0">
+                              <a  class="nav-link second-tier-menu-link" 
+                                  asp-area="" 
+                                  asp-controller="@secondTierMenu.Controller" 
+                                  asp-action="@secondTierMenu.ControllerAction" 
+                                  asp-route-UseCase="@secondTierMenu.UseCase">@secondTierMenu.Title</a>
+                            </li>
+                          }   
+                          </ul>                 
+                      </div>                  
+                  }
+                }
+              </div>
+            </div>
+        </div>      

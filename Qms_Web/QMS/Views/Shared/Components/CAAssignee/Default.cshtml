@@ -1,0 +1,9 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+<div class="form-group col-md-4">
+    <label for="AssignedToUserId" class="font-weight-bold">Select Assignee
+        <br/><span class="text-danger font-weight-normal">(only select if making an assignment)</span></label>
+    <select asp-for="AssignedToUserId" class="form-control" asp-items="ViewBag.AssignedToUserItems">
+        <option value="">-- Select assignee --</option>
+    </select>
+    <span asp-validation-for="AssignedToUserId" class="text-danger"></span>
+</div>

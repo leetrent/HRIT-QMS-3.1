@@ -1,0 +1,13 @@
+@model List<QMS.ViewModels.MenuItemViewModel>
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+    <ul class="nav justify-content-center my-0 bg-dark">
+        @foreach (var menuItem in Model)
+        {
+        <li class="nav-item">
+            <a class="nav-link text-white" asp-area="" asp-controller="@menuItem.ControllerName" asp-action="@menuItem.ActionName" asp-route-UseCase="@menuItem.UseCase">@menuItem.MenuLabel</a>
+        </li>
+        }
+    </ul>
+}

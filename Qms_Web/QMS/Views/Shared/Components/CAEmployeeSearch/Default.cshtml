@@ -1,0 +1,14 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+
+<div class="form-group col-md-6">
+    <label for="EmployeeSearchResult" class="font-weight-bold">Select Employee<span class="text-danger font-weight-bolder">*</span></label>
+    <input asp-for="EmployeeSearchResult" class="form-control" placeholder="Enter last name or employee ID" />
+    <span asp-validation-for="EmployeeSearchResult" class="text-danger"></span>
+</div>
+<div class="form-group col-md-6">
+    <label class="font-weight-bold">&nbsp;</label>
+    <div class="custom-control custom-checkbox mt-1">
+        <input asp-for="ShowInactiveEmployees" class="custom-control-input" />
+        <label asp-for="ShowInactiveEmployees" class="custom-control-label">Show Inactive Employees</label>
+    </div>
+</div>

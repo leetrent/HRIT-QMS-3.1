@@ -1,0 +1,23 @@
+a.first-tier-menu-link:hover {
+    color: #fff;
+    background-color: #0CB0DF;
+    outline: 0;
+}
+
+a.first-tier-menu-link.active {
+    color: #fff;
+    background-color: #0CB0DF;
+    outline: 0;
+}
+
+a.second-tier-menu-link:hover {
+    color: #fff;
+    background-color: #0CB0DF;
+    outline: 0;
+}
+
+a.second-tier-menu-link.active {
+    color: #fff;
+    background-color: #0CB0DF;
+    outline: 0;
+}

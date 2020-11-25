@@ -1,0 +1,99 @@
+@model IOrderedEnumerable<QmsCore.UIModel.DataErrorListItem>
+    @using QMS.Constants;
+
+    <h2 class="mt-3 mb-4 text-center">@ViewData[DataErrorConstants.DATA_ERRORS_INDEX_PAGE_TITLE]</h2>
+    <p class="mb-1 text-primary font-italic mt-4">Click on column name to sort column:</p>
+    <table class="table table-bordered table-striped table-hover table-sm">
+        <thead class="thead-dark">
+            <tr style="height: 50px; border: 3px solid #004085;">
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-white" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["IdSortParam"]">ID</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["emplIdSortParam"]">Employee ID</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["emplNameSortParam"]">Employee Name</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["officeSymbolSortParam"]">Office Symbol</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["errorCodeSortParam"]">Error Code</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["dataElementSortParam"]">Data Element</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["statusSortParam"]">Status</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["assignedToSortParam"]">Assigned To</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["dateCreatedSortParam"]">Date Created</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["priorityIndexSortParam"]">Priority</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["daysOpenSortParam"]">Days Open</a>
+                </th>
+                <th class="text-center border align-middle font-weight-normal">
+                    <a class="text-light font-weight-normal" asp-controller="DataErrors" asp-action="Index"
+                       asp-route-UseCase="@ViewData["UseCase"]" asp-route-SortOrder="@ViewData["caIdSortParam"]">CA #</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a asp-area="" asp-controller="DataErrors" asp-action="Edit"
+                       asp-route-id="@item.EhriErrorId" asp-route-UseCase="@item.UseCase">@item.EhriErrorId</a>
+                </td>
+
+                <td>@item.EmplId</td>
+                <td>@item.EmployeeName</td>
+                <td>@item.OfficeSymbol</td>
+                <td>@item.ErrorCode</td>
+                <td>@item.DataElement</td>
+                <td>@item.Status</td>
+                <td>@item.AssignedTo</td>
+                <td>@item.DateCreated</td>
+                <td>@item.PriorityIndex</td>
+                <td>@item.DaysOpen</td>
+                <td>
+                    <a asp-area="" asp-controller="CorrectiveActions" asp-action="Edit"
+                       asp-route-id="@item.CorrectiveActionId" asp-route-UseCase="@item.UseCase">@item.CorrectiveActionId</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+
+    @section Scripts {
+        <script>
+            window.addEventListener("load", function () {
+                let mainContainer = document.getElementById("main-container");
+                if (mainContainer) {
+                    mainContainer.classList.remove("container");
+                    mainContainer.classList.add("container-fluid");
+                    //mainContainer.classList.add("w-75");
+                    mainContainer.style.width = "90%";
+                }
+            });
+        </script>
+    }

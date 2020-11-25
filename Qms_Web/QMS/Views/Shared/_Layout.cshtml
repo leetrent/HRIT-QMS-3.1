@@ -1,0 +1,106 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GSA - HR / QMS</title>
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/lib/jquery-ui/dist/css/jquery-ui.css" rel="stylesheet" />
+    <link href="~/css/qms-styles.css" rel="stylesheet" />
+    <link href="~/css/qms-menus.css" rel="stylesheet" />
+
+    <style>
+        svg.unread {
+            fill: #007bff;
+        }
+
+        svg.read {
+            opacity: 0.4;
+        }
+    </style>
+    <link rel="shortcut icon" href="~/images/favicon.ico" />
+</head>
+<body>
+    <nav class="navbar navbar-dark bg-dark navbar-expand-md my-0 py-0"
+         style="border-top: 5px solid #0CB0DF;border-bottom: 5px solid #0CB0DF;">
+        <a class="navbar-brand urs-navbar-brand my-0 py-0" asp-area="" asp-controller="Home" asp-action="Index">
+            <img src="~/images/qms-logo.png" class="my-1 py-0" width="137" height="75" alt="GSA Logo">
+        </a>
+        <button type="button"
+                class="navbar-toggler"
+                data-toggle="collapse"
+                data-target="#topNavbarContent"
+                aria-controls="topNavbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="navbar-collapse collapse flex-column" id="topNavbarContent">
+            <ul class="navbar-nav ml-auto my-0 py-0">
+                <li class="nav-item">
+                    <a class="nav-link my-0 py-0" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block my-0 py-0">|</a></li>
+                <li class="nav-item">
+                    <a class="nav-link my-0 py-0" href="https://sites.google.com/a/gsa.gov/hrsshare/employment-services-resources/quality-management-system-qms" target="_blank">OHRS Google Site</a>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block my-0 py-0">|</a></li>
+                <li class="nav-item">
+                    <a class="nav-link my-0 py-0" href="https://drive.google.com/drive/folders/10TCI2T8s0Pd78TyTgrqPkKIDSG7JPujz"
+                       target="_blank">User Guides</a>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block my-0 py-0">|</a></li>
+                <li class="nav-item">
+                    <a class="nav-link my-0 py-0" asp-area="" asp-controller="Home" asp-action="Help">Help</a>
+                </li>
+                @if (Context.User.Identity.IsAuthenticated)
+                {
+                <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block my-0 py-0">|</a></li>
+                <li class="nav-item"><a class="nav-link my-0 py-0" style="color:#0CB0DF;">@Context.User.Identity.Name</a></li>
+                }
+                @if (Context.User.Identity.IsAuthenticated)
+                {
+                <li class="nav-item"><a href="#" class="nav-link px-1 d-none d-md-block mr-2 my-0 py-0">|</a></li>
+                <a class="btn btn-sm btn-primary my-2 my-sm-1 my-0 py-0" asp-controller="Login" asp-action="LogoutAsync">
+                    <span>@Localizer["Log Out"]</span>
+                </a>
+                }
+            </ul>
+            <ul class="navbar-nav flex-row ml-auto my-0 py-0">
+                <li class="nav-item my-0 py-0">
+                    <a class="nav-link my-0 py-0 font-italic" style="color:#0CB0DF;"href="#">SDK 3.1 Upgrade</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!--<div class="text-right pr-4 font-italic text-secondary">netcoreapp2.1</div>-->
+    @await Component.InvokeAsync("MenuNavbar")
+    <div id="main-container" class="container mt-0">
+        <partial name="_CookieConsentPartial" />
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    <!-- <footer id="footer">
+        <div id="footer-div-left">
+            <img src="~/images/gsa-logo.png" class="bottom my-0 py-0" width="75" height="75" alt="GSA Logo">&nbsp;U.S. General Services Administration
+        </div>
+        <div id="footer-div-right">
+             <img alt="American Flag" src="~/images/us-flag.png" class="display-inline" /><small>&nbsp;Official website of the U.S. Government</small>
+        </div>
+    </footer> -->
+    <!--[Branch: master][SDK 3.1][Friday, November 20, 2020][03:30 PM CT] -->
+    <script src="~/lib/jquery/dist/jquery-3.5.1.min.js"></script>
+    <script src="~/lib/popper/dist/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <style>
+        img.bottom {
+            vertical-align: text-bottom;
+        }
+    </style>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

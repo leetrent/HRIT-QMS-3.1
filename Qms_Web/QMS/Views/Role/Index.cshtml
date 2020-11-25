@@ -1,0 +1,51 @@
+@model QMS.ViewModels.RoleViewModel;
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+<h1 class="display-4 text-center">Role Admin</h1>
+
+@if (@Model.ShowAlert == true)
+    {
+<div class="@Model.AlertCssClass" role="alert">
+    @Html.Raw(@Model.AlertMessage)
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+    }
+<nav>
+    <div class="nav nav-tabs" id="nav-roles-tab" role="tablist">
+        <a class="@Model.ActiveRoleNavItemNavLink"
+           id="roles-active-tab"
+           data-toggle="tab"
+           href="#roles-active-content"
+           role="tab"
+           aria-controls="roles-active-content"
+           aria-selected="true">
+            Active Roles
+        </a>
+        <a class="@Model.InactiveRoleNavItemNavLink"
+           id="roles-inactive-tab"
+           data-toggle="tab"
+           href="#roles-inactive-content"
+           role="tab"
+           aria-controls="roles-inactive-content"
+           aria-selected="false">
+            Inactive Roles
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-roles-tab-content">
+    <div class="@Model.ActiveRoleTabPadFade" id="roles-active-content" role="tabpanel" aria-labelledby="roles-active-tab">
+        @await Component.InvokeAsync("UARolesActive")
+    </div>
+    <div class="@Model.InactiveRoleTabPadFade" id="roles-inactive-content" role="tabpanel" aria-labelledby="roles-inactive-tab">
+        @await Component.InvokeAsync("UARolesInactive")
+    </div>
+</div>
+}
+
+@section Scripts {
+    <script src="~/js/qms_utils.js"></script>
+    <script src="~/js/qms_roles_20200708.js"></script>
+}

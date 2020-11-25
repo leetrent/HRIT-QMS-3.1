@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "QMS_NotificationSender": {
+      "commandName": "Project",
+      "commandLineArgs": "\"dev\""
+    }
+  }
+}

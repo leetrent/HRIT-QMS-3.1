@@ -1,0 +1,28 @@
+@model QMS.ViewModels.UserAdminViewModel;
+
+<div class="card w-50">
+    <div class="card-body">
+        <h5 class="card-title">User Search:</h5>
+        <form id="userSearchForm" class="needs-validation" asp-controller="User" asp-action="Search" method="POST" novalidate>
+            <div class="form-group">
+                <input type="email" class="form-control" id="userSearchEmailAddress" name="userSearchEmailAddress" placeholder="user.name@gsa.gov" required>
+                <div class="invalid-feedback">
+                    Please provide a valid user email address.
+                </div>
+            </div>
+            <button class="btn btn-primary" type="submit">Search</button>
+        </form>
+    </div>
+</div>
+
+@if (@Model.ShowUserForm == true)
+{
+@if (@Model.SearchUserSuccessful == true)
+    {
+@await Component.InvokeAsync("UAUserUpdate")
+    }
+    else
+    {
+@await Component.InvokeAsync("UAUserCreate")
+    }
+}

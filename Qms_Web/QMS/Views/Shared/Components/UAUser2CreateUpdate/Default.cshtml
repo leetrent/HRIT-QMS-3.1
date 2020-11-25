@@ -1,0 +1,93 @@
+@model QMS.ViewModels.UserFormViewModel;
+
+@{
+    if (@Model.Deactivatable)
+    {
+    <div class="w-75 mt-2 mb-1 text-right">
+        <form asp-controller2="User2" asp-action="Deactivate" method="POST">
+            <input type="hidden" asp-for="UserId" />
+            <button class="btn btn-danger" type="submit">Deactivate</button>
+        </form>
+    </div>
+    }
+    if (@Model.Reactivatable)
+    {
+    <div class="w-75 mt-2 mb-1 text-right">
+        <form asp-controller2="User2" asp-action="Reactivate" method="POST">
+            <input type="hidden" asp-for="UserId" />
+            <button class="btn btn-success" type="submit">Reactivate</button>
+        </form>
+ </div>
+    }
+}
+<div class="card w-75">
+    <h5 class="card-header">@Model.CardHeader</h5>
+    <div class="card-body">
+        <form asp-controller2"User2" asp-action="@Model.AspAction" method="POST" id="createOrUpdateUserForm">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="updateUserEmail">Email Address:</label>
+                    <input type="email" class="form-control" id="createOrUpdateUserEmail" asp-for="EmailAddress">
+                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="updateUserDisplayName">Display Name:</label>
+                    <input type="text" class="form-control" id="createOrUpdateUserDisplayName" asp-for="DisplayName">
+                    <span asp-validation-for="DisplayName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-md-6 mb-3">
+                    <label for="updateUserOrganization">Organization:</label>
+                    <select asp-for="OrgId" asp-items="ViewBag.ActiveOrganizations" class="custom-select" id="createOrUpdateUserOrganization">
+                        <option value="">-- Select Organization --</option>
+                    </select>
+                    <span asp-validation-for="OrgId" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="updateUserManager">Manager:</label>
+                    <select asp-for="ManagerId" asp-items="ViewBag.PotentialManagers" class="custom-select" id="createOrUpdateUserManager">
+                        <option value="">-- Select Manager --</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-12 border bg-light py-3 pl-4">
+                <div class="form-row">
+                    @{
+                        int count = 0;
+                        @foreach (var checkboxRole in Model.CheckboxRoles)
+                        {
+                            if (count++ % 2 == 0)
+                            {
+                    @:</div><div class="form-row">
+                            }
+                            string createUpdateRoleForUserCheckboxId = $"createOrUpdateRoleForUser-{checkboxRole.RoleId}";
+                        @:<div class="form-group col-md-6 m-0">
+                            @:<div class="custom-control custom-checkbox">
+                                <input type="checkbox"
+                                       class="custom-control-input"
+                                       id="@createUpdateRoleForUserCheckboxId"
+                                       name="selectedRoleIdsForUser"
+                                       value="@checkboxRole.RoleId"
+                                       @(Html.Raw(checkboxRole.Selected ? "checked=\"checked\"" : "")) />
+                                <label class="custom-control-label" for="@createUpdateRoleForUserCheckboxId">@checkboxRole.RoleLabel</label>
+                            @:</div>
+                        @:</div>
+                        }
+                    }
+                </div>
+            </div>
+            @if (@Model.Mutatatable)
+            {
+            <input type="hidden" asp-for="UserId" />
+            <button class="btn btn-success" type="submit">@Model.SubmitButtonLabel</button>
+            <a class="btn btn btn-danger ml-1" asp-controller="User2" asp-action="Index">Cancel</a>
+            }
+            else
+            {
+            <a class="btn btn btn-primary ml-1" asp-controller="User2" asp-action="Index">Done</a>
+            }
+        </form>
+    </div>
+</div>

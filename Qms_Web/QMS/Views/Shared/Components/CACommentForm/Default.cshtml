@@ -1,0 +1,16 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+<form id="caAddCommentForm" action="javascript:void(0);" method="POST" onsubmit="javascript:addComment();">
+    <div class="form-row mt-2 pb-0">
+        <div class="form-group col-md-8 mb-0">
+            <label for="Comment">Enter Your Comment:</label>
+            <textarea id="caComment" asp-for="Comment" class="form-control" style="margin-top:0px;" rows="3" cols="40"></textarea>
+        </div>
+    </div>
+    <div class="form-row mt-3">
+        <div class="form-group col-md-4">
+            <input type="submit" class="btn btn-xs btn-success" value="Add" />
+        </div>
+    </div>
+    <input asp-for="CorrectiveActionIdForAddComment" />
+    <input asp-for="UserId" />
+</form>

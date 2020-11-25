@@ -1,0 +1,53 @@
+﻿@using QMS.Constants;
+@model List<QMS.ViewModels.MenuItemViewModel>
+
+    @{
+    ViewData["Title"] = "HR / QMS";
+    }
+
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+    @if (@ViewData[MiscConstants.HOME_PAGE_ALERT_MESSAGE_KEY] != null)
+        {
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+        @ViewData[MiscConstants.HOME_PAGE_ALERT_MESSAGE_KEY]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+        }
+    <div class="row mt-4">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">My Organization:</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item text-primary h5">@ViewData["QMS_ORG"]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">My QMS Roles:</h5>
+                    <ul class="list-group list-group-flush">
+                        @{
+                        List<string> roleLabels = ViewBag.UserRoleLabels;
+                            @foreach (string roleLabel in roleLabels)
+                        {
+                            <li class="list-group-item h5 text-primary">@roleLabel</li>
+                        }
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @await Component.InvokeAsync("Notifications")
+}
+
+    @section Scripts {
+        <script src="~/js/qms_notifications_202005211000.js"></script>
+    }

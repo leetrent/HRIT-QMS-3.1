@@ -1,0 +1,35 @@
+@model QMS.ViewModels.UserAdminViewModel;
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+<nav>
+    <div class="nav nav-tabs" id="nav-roles-tab" role="tablist">
+        <a class="@Model.ActiveRoleNavItemNavLink"
+           id="roles-active-tab"
+           data-toggle="tab"
+           href="#roles-active-content"
+           role="tab"
+           aria-controls="roles-active-content"
+           aria-selected="true">
+            Active Roles
+        </a>
+        <a class="@Model.InactiveRoleNavItemNavLink"
+           id="roles-inactive-tab"
+           data-toggle="tab"
+           href="#roles-inactive-content"
+           role="tab"
+           aria-controls="roles-inactive-content"
+           aria-selected="false">
+            Inactive Roles
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-roles-tab-content">
+    <div class="@Model.ActiveRoleTabPadFade" id="roles-active-content" role="tabpanel" aria-labelledby="roles-active-tab">
+        @await Component.InvokeAsync("UARolesActive")
+    </div>
+    <div class="@Model.InactiveRoleTabPadFade" id="roles-inactive-content" role="tabpanel" aria-labelledby="roles-inactive-tab">
+        @await Component.InvokeAsync("UARolesInactive")
+    </div>
+</div>
+}

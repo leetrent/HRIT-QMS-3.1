@@ -1,0 +1,13 @@
+{
+  "profiles": {
+    "Qms_Data": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "APPSETTINGS_DIRECTORY": "E:\\Shared\\AppSettings",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "LOGFILE_DIRECTORY": "E:\\Developers\\LeeT\\Projects\\MyProjects\\QMS\\Logs"
+      },
+      "remoteDebugEnabled": false
+    }
+  }
+}

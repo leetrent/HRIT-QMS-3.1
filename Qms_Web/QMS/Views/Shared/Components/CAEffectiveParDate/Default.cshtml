@@ -1,0 +1,6 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+<div class="form-group col-md-3">
+    <label for="EffectiveDateOfPar" class="font-weight-bold">Effective PAR Date<span class="text-danger font-weight-bolder">*</span></label>
+    <input asp-for="EffectiveDateOfPar" class="form-control datepicker" />
+    <span asp-validation-for="EffectiveDateOfPar" class="text-danger"></span>
+</div>

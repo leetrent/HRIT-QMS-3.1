@@ -1,0 +1,23 @@
+@model List<QmsCore.UIModel.Permission>
+    <div class="container" style="border: 1px solid #004085;">
+        <div class="row alert-primary" style="border-bottom: 1px solid #004085;">
+            <div class="col-1  p-1 font-weight-bold text-center">ID</div>
+            <div class="col-4  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Permission Code</div>
+            <div class="col-5  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Permission Label</div>
+            <div class="col-2  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Available Actions</div>
+        </div>
+        @foreach (var permission in Model)
+        {
+            <div class="row">
+                <div class="col-1 border p-1">@permission.PermissionId</div>
+                <div class="col-4 border p-1">@permission.PermissionCode</div>
+                <div class="col-5 border p-1">@permission.PermissionLabel</div>
+                <div class="col-2 border p-1">
+                    <form asp-controller="Permission" asp-action="ReactivatePermission" method="POST">
+                        <input type="submit" class="btn btn-sm btn-outline-primary" value="Reactivate" />
+                        <input type="hidden" name="permissionId" value="@permission.PermissionId" />
+                    </form>
+                </div>
+            </div>
+        }
+     </div>

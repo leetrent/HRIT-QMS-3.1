@@ -1,0 +1,49 @@
+﻿@model QMS.ViewModels.EmailViewModel;
+
+@{
+    ViewData["Title"] = "QMS Support";
+}
+<h2 class="mt-2">QMS Support</h2>
+
+@if (@Model.ShowAlert == true)
+{
+    <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+        <strong>Your email message was sent successfully.</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<address class="mt-3">
+    See the QMS User Guides for questions on how to use this website:
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="UserGuides">User Guides</a>
+        </li>
+        <li class="nav-item">For all other questions, contact QMS Support using the email form provided below.</li>
+    </ul>
+</address>
+<div class="card" style="width: 60%;">
+    <h6 class="card-header">Email QMS Support:</h6>
+    <div class="card-body">
+        <form asp-controller="Home" asp-action="Help" method="POST">
+            <div class="form-group">
+                <label for="Recipient">Recipient:</label>
+                <input type="email" class="form-control" id="Recipient" asp-for="Recipient" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Sender">Sender:</label>
+                <input type="email" class="form-control" id="Sender" asp-for="Sender" readonly>
+            </div>
+            <div class="form-group">
+                <label for="Subject">Subject:</label>
+                <input type="text" class="form-control" id="Subject" asp-for="Subject">
+            </div>
+            <div class="form-group">
+                <label for="Body">Message</label>
+                <textarea class="form-control" id="Body" asp-for="Body" rows="5"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>

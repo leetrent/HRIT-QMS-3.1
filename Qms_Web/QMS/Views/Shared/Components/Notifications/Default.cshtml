@@ -1,0 +1,142 @@
+@{
+    List<QmsCore.UIModel.Notification> notificationList = ViewBag.NotificationList;
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" id="staticBackdropButton" data-toggle="modal" data-target="#staticBackdrop" style="display:none;">
+        Launch static backdrop modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Delete Notification</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="deleteNotificationBody" class="modal-body">
+                    Are you sure you want to delete this notification?
+                </div>
+                <div class="modal-footer">
+                    <button id="deleteNotificationButton" type="button" class="btn btn-danger" data-dismiss="modal">Delete</button>
+                    <button id="cancelDeleteNotificationButton" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" id="markAllAsReadModalButton" data-toggle="modal" data-target="#markAllAsReadModal" style="display:none;">
+        Launch mark as read modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="markAllAsReadModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="markAllAsReadLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="markAllAsReadLabel">Mark All Notications as Read</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="markAllAsReadBody" class="modal-body">
+                    Are you sure you want to mark all you notifications as being read?
+                </div>
+                <div class="modal-footer">
+                    <button id="markAllAsReadWarningButton" type="button" class="btn btn-danger" data-dismiss="modal">Mark All as Read</button>
+                    <button id="cancelMarkAllAsReadWarningButton" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (notificationList != null && notificationList.Count > 0)
+    {
+        <h4 id="notificationsHeader" class="text-center mt-4">Your Notifications</h4>
+    }
+
+    @if (notificationList != null && notificationList.Count > 1)
+    {
+        <div id="markAllDeleteAllButtonContainer">
+            <hr class="my-2">
+            <div class="d-flex justify-content-center">
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <form id="markAllAsReadForm" asp-controller="Notification" asp-action="MarkAllAsRead" method="post">
+                            <input type="hidden" name="notificationIdString" value="@ViewBag.NotificationIdString"/>
+                            <button type="button" class="btn btn-secondary" onclick="markAllAsRead();">Mark All As Read</button>
+                        </form>
+                    </div>
+                    <div class="btn-group mr-2" role="group" aria-label="Second group">
+                        <form id="deleteAllForm" asp-controller="Notification" asp-action="DeleteAll" method="post">
+                            <input type="hidden" name="notificationIdString" value="@ViewBag.NotificationIdString" />
+                            <button type="button" class="btn btn-danger" onclick="deleteAllNotifications();">Delete All</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-2">
+        </div>
+    }
+
+    @:<div id="notificationCardContainer">
+    @if (notificationList != null)
+    {
+        foreach (var notification in notificationList)
+        {
+            @if (notification.HasBeenRead)
+            {
+                <div id="@notification.NotificationId" class="card mt-4 text-primary" style="border:5px double #007bff">
+                    <h5 class="card-header border-primary pb-0">
+                        <p style="float:left" class="text-primary">@notification.Title</p>
+                        <p style="float:right">
+                            <svg class="unread" xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 24 24" height="24" viewBox="0 0 24 24" width="24"><g><rect fill="none" height="24" width="24" x="0"/></g><g><g><g><path d="M20,4H4C2.89,4,2.01,4.89,2.01,6L2,18c0,1.11,0.89,2,2,2h16c1.11,0,2-0.89,2-2V6C22,4.89,21.11,4,20,4z M8.5,15H7.3 l-2.55-3.5V15H3.5V9h1.25l2.5,3.5V9H8.5V15z M13.5,10.26H11v1.12h2.5v1.26H11v1.11h2.5V15h-4V9h4V10.26z M20.5,14 c0,0.55-0.45,1-1,1h-4c-0.55,0-1-0.45-1-1V9h1.25v4.51h1.13V9.99h1.25v3.51h1.12V9h1.25V14z"/></g></g></g></svg>
+                            <a asp-area="" asp-controller="Notification" asp-action="GoToWorkItem" asp-route-id="@notification.NotificationId">
+                                <svg class="unread" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                                    <path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/>
+                                </svg>         
+                            </a>                       
+                            <svg class="unread" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onclick="deleteNotification('@notification.NotificationId');">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                <path d="M0 0h24v24H0z" fill="none"/>
+                            </svg>
+                        </p>
+                    </h5>
+                    <div class="card-body border-primary">
+                        <p class="card-text">@Html.Raw(@notification.Message)</p>
+                    </div>
+                    <div class="card-footer border-primary">Date Created: @notification.CreatedAt</div>
+                </div>
+            }
+            else
+            {
+                <div id="@notification.NotificationId" class="card mt-4 border-secondary text-secondary">
+                    <h5 class="card-header pb-0">
+                        <p style="float:left" class="font-weight-normal">@notification.Title</p>
+                        <p style="float:right">
+                            <a asp-area="" asp-controller="Notification" asp-action="GoToWorkItem" asp-route-id="@notification.NotificationId">
+                                <svg class="read" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                                    <path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z"/>
+                                </svg>         
+                            </a>  
+                            <svg class="read" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24" onclick="deleteNotification('@notification.NotificationId');">
+                                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                <path d="M0 0h24v24H0z" fill="none"/>
+                            </svg>
+                        </p>
+                    </h5>
+                    <div class="card-body">
+                        <p class="card-text">@Html.Raw(@notification.Message)</p>
+                    </div>
+                    <div class="card-footer">Date Created: @notification.CreatedAt</div>
+                </div>
+            }
+        }
+    }
+    @:</div>
+}

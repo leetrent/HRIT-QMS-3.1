@@ -1,0 +1,9 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+
+<div class="form-group col-md-6">
+    <label class="font-weight-bold">Payment Discrepancy?</label>
+    <div class="custom-control custom-checkbox mt-1">
+        <input asp-for="IsPaymentMismatch" class="custom-control-input" />
+        <label asp-for="IsPaymentMismatch" class="custom-control-label">Yes, a payment discrepancy is involved.</label>
+    </div>
+</div>   

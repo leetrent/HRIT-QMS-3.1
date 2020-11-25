@@ -1,0 +1,19 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+
+<table class="table table-bordered">
+    <thead class="thead-light">
+        <tr>
+            <th>Date and Time</th>
+            <th scope="col">Description</th>
+        </tr>
+    </thead>
+  <tbody>
+      @foreach (var history in Model.Histories)
+      {
+          <tr>
+              <td>@Html.DisplayFor(modelItem => history.CreatedAt)</td>
+              <td>@Html.Raw(history.ActionDescription)</td>
+          </tr>
+      }
+  </tbody>
+</table> 

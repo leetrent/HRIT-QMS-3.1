@@ -1,0 +1,8 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+<div class="form-group col-md-4">
+    <label for="ActionRequestTypeId" class="font-weight-bold">Select Request Type<span class="text-danger font-weight-bolder">*</span></label>
+    <select asp-for="ActionRequestTypeId" class="form-control" asp-items="ViewBag.ActionTypeItems">
+        <option value="">-- Select request type --</option>
+    </select>
+    <span asp-validation-for="ActionRequestTypeId" class="text-danger"></span>
+</div>

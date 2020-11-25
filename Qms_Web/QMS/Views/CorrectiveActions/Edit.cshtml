@@ -1,0 +1,141 @@
+@using QMS.Constants;
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+
+@{
+    ViewData["Title"] = "Manage Corrective Action #" + @Model.CorrectiveActionId;
+}
+
+@if (@ViewData[CorrectiveActionsConstants.CA_EDIT_MESSAGE_KEY] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show my-3" role="alert">
+        @ViewData[CorrectiveActionsConstants.CA_EDIT_MESSAGE_KEY]
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+<h1 class="h4 mt-0 pt-0 pb-0 mb-2">@ViewData["Title"]</h1>
+<div class="text-danger font-weight-bolder">* Required</div>
+<form asp-controller="CorrectiveActions" asp-action="Edit" method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-row">
+        @await Component.InvokeAsync("CASubmittedBy")
+        @await Component.InvokeAsync("CADateSubmitted")
+        @await Component.InvokeAsync("CAStatus")
+        @await Component.InvokeAsync("CAAssignedTo")
+    </div>
+    <div class="form-row">
+        @await Component.InvokeAsync("CAEmployeeSearch")
+    </div>
+    <div class="form-row p-0 border m-0 p-1 bg-light">
+        <div class="form-group col-md-12 text-left font-italic p-1 m-0">
+            Enter the NOA information on the PAR that needs to be corrected or canceled.<br />If requesting a retro PAR, enter the NOA/effective date of the retro action you are requesting.
+        </div>
+    </div>
+    <div class="form-row p-0 border-left border-right border-bottom m-0 p-2">
+        @await Component.InvokeAsync("CANatureOfAction")
+        @await Component.InvokeAsync("CAEffectiveParDate")
+        @await Component.InvokeAsync("CAPaymentDiscrepancy")
+    </div>
+    @await Component.InvokeAsync("CAErrorCategories")
+    <div class="form-row mt-2 pb-0">
+        @await Component.InvokeAsync("CARequestType")
+        @await Component.InvokeAsync("CADetails")
+    </div>
+    <div class="form-row mt-3">
+        @await Component.InvokeAsync("CAAction")
+        @{
+            if (Model.CanAssign)
+            {
+            @await Component.InvokeAsync("CAAssignee")
+                @await Component.InvokeAsync("CAPersonnelOfficeIDDesc")
+            }
+        }
+    </div>
+    <div class="form-row">
+        <div id="caEditAvailableActions" class="form-group col-md-4">
+            <input type="submit" id="caEditFormSubmit" class="btn btn-xs btn-success" value="Submit" />
+            <a id="caEditFormCancel" class="btn btn-xs btn-danger ml-2" asp-controller="@Model.Controller" asp-action="Index" asp-route-UseCase="@Model.UseCase">Cancel</a>
+        </div>
+    </div>
+    <input asp-for="CorrectiveActionId" />
+    <input asp-for="CurrentStatusId" />
+    <input asp-for="RowVersion" />
+</form>
+<hr />
+<ul class="nav nav-tabs" id="manageCATabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="view-comments-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">View Comments</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="add-comment-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Add Comment</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="history-tab" data-toggle="tab" href="#history" role="tab" aria-controls="history" aria-selected="false">History</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="view-comments-tab">
+        @await Component.InvokeAsync("CACommentList")
+    </div>
+    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="add-comment-tab">
+        @await Component.InvokeAsync("CACommentForm")
+    </div>
+    <div class="tab-pane fade" id="history" role="tabpanel" aria-labelledby="history-tab">
+        @await Component.InvokeAsync("CAHistory")
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/jquery-ui/dist/js/jquery-ui.js"></script>
+    <script src="~/js/qms_empl_search.js"></script>
+    <script src="~/js/qms_ca_comments.js"></script>
+    <script>
+        //let boolDisabled = new Boolean(false);
+        @if (@Model.IsReadOnly) {
+            @:let boolDisabled = new Boolean(true);
+        } else {
+            @:let boolDisabled = new Boolean(false);
+        }
+
+        window.addEventListener("load", function() {
+            document.getElementById("EmployeeSearchResult").disabled = boolDisabled.valueOf();
+            document.getElementById("ShowInactiveEmployees").disabled = boolDisabled.valueOf();
+            document.getElementById("NatureOfAction").disabled = boolDisabled.valueOf();
+            document.getElementById("EffectiveDateOfPar").disabled = boolDisabled.valueOf();
+            document.getElementById("IsPaymentMismatch").disabled = boolDisabled.valueOf();
+            document.getElementById("ActionRequestTypeId").disabled = boolDisabled.valueOf();
+            document.getElementById("StatusTypeId").disabled = boolDisabled.valueOf();
+
+            let AssignedToUserId = document.getElementById("AssignedToUserId");
+            if (AssignedToUserId) {
+                AssignedToUserId.disabled = boolDisabled.valueOf();
+            }
+
+            for ( let index = 1; index <= 100; index++ ) {
+                let checkboxTest = document.getElementById(`selectedErrorTypes_${index}`);
+                if ( checkboxTest) {
+                    checkboxTest.disabled = boolDisabled.valueOf();
+                }
+            }
+
+            console.log("boolDisabled.valueOf()", boolDisabled.valueOf());
+
+            if (boolDisabled.valueOf() == true) {
+                let caEditAvailableActions = document.getElementById("caEditAvailableActions");
+                if (caEditAvailableActions) {
+                    let caEditFormSubmit = document.getElementById("caEditFormSubmit");
+                    if (caEditFormSubmit) {
+                        caEditAvailableActions.removeChild(caEditFormSubmit);
+                    }
+                    let caEditFormCancel = document.getElementById("caEditFormCancel");
+                    if (caEditFormCancel) {
+                        caEditFormCancel.classList.remove("btn", "btn-xs", "btn-danger");
+                        caEditFormCancel.textContent = "Return to List ->";
+                    }
+                }
+            }
+        });
+    </script>
+}

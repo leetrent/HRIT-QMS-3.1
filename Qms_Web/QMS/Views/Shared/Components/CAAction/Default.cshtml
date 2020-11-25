@@ -1,0 +1,8 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+<div class="form-group col-md-4">
+    <label for="StatusTypeId" class="font-weight-bold">Select Action<span class="text-danger font-weight-bolder">*</span></label>
+    <select asp-for="StatusTypeId" class="form-control" asp-items="ViewBag.StatusTypeItems">
+        <option value="">-- Select action --</option>
+    </select>
+    <span asp-validation-for="StatusTypeId" class="text-danger"></span>
+</div>

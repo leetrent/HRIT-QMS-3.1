@@ -1,0 +1,65 @@
+@model QMS.ViewModels.UserAdminViewModel;
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+<h1 class="display-4 text-center">User Administration</h1>
+
+@if (@Model.ShowAlert == true)
+    {
+<div class="@Model.AlertCssClass" role="alert">
+    @Html.Raw(@Model.AlertMessage)
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+        }
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="@Model.UserNavItemNavLink"
+           id="nav-users-tab"
+           data-toggle="tab"
+           href="#nav-users"
+           role="tab"
+           aria-controls="nav-users"
+           aria-selected="true">
+            User Admin
+        </a>
+        <a class="@Model.RoleNavItemNavLink"
+           id="nav-roles-tab"
+           data-toggle="tab"
+           href="#nav-roles"
+           role="tab"
+           aria-controls="nav-roles"
+           aria-selected="false">
+            Role Admin
+        </a>
+        <a class="@Model.PermissionNavItemNavLink"
+           id="nav-permissions-tab"
+           data-toggle="tab"
+           href="#nav-permissions"
+           role="tab"
+           aria-controls="nav-permissions"
+           aria-selected="false">
+            Permission Admin
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="@Model.UserTabPadFade" id="nav-users" role="tabpanel" aria-labelledby="nav-users-tab">
+        @await Component.InvokeAsync("UAUsers")
+    </div>
+    <div class="@Model.RoleTabPadFade" id="nav-roles" role="tabpanel" aria-labelledby="nav-roles-tab">
+        @await Component.InvokeAsync("UARoles")
+    </div>
+    <div class="@Model.PermissionTabPadFade" id="nav-permissions" role="tabpanel" aria-labelledby="nav-permissions-tab">
+        @await Component.InvokeAsync("UAPermissions")
+    </div>
+</div>
+}
+
+@section Scripts {
+    <script src="~/js/qms_users_202008041030.js"></script>
+    <script src="~/js/qms_permissions_202006251719.js"></script>
+    <script src="~/js/qms_roles_20200708.js"></script>
+
+}

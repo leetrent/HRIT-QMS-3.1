@@ -1,0 +1,44 @@
+.alert-failure {
+    border: 1px solid #721c24;
+}
+.alert-success {
+    border: 1px solid #155724;
+}
+
+/*************************************************************************
+    PAGE FOOTER STYLING
+      - currently not being used
+      - saved for future reference.
+ *************************************************************************
+#main-container {
+    min-height: calc( 100vh - 93px - 90px);
+}
+#footer {
+    width: 100%;
+    height: 85px;
+    background-color: #f8f9fa;
+    border-top: 2px solid #0CB0DF;
+    border-bottom: 2px solid #0CB0DF;
+}
+#footer-div-left {
+    width: 50%;
+    height: 85px;
+    float: left;
+    text-align:left;
+    padding-left: 1rem;
+    padding-top: 3px;
+    padding-bottom: 5px;
+    color:#004f87;
+    font-weight:bold;
+}
+#footer-div-right {
+    width: 50%;
+    height: 85px;
+    float: right;
+    text-align:right;
+    padding-right: 1rem;
+    padding-top: 55px;
+    color:#004f87;
+    font-weight:bold;
+}
+************************************************************/

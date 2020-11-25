@@ -1,0 +1,16 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+
+<br/>
+<div id="cardContainer">
+@foreach (var comment in Model.Comments)
+{
+    <div class="card mb-3" style="max-width: 18rem;">
+        <div class="card-header">@Html.DisplayFor(modelItem => comment.Author.Organization.OrgLabel)</div>
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(modelItem => comment.Author.DisplayName)</h5>
+            <p class="card-text">@Html.DisplayFor(modelItem => comment.Message)</p>
+        </div>
+        <div class="card-footer">@Html.DisplayFor(modelItem => comment.CreatedAt)</div>
+    </div>
+}
+</div>

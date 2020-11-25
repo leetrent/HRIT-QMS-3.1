@@ -1,0 +1,193 @@
+@model QMS.ViewModels.DataErrorViewModel;
+
+
+@{
+    ViewData["Title"] = "Manage EHRI Error #" + @Model.DataErrorId;
+}
+
+<h1 class="h4 my-3 pt-0 pb-0">@ViewData["Title"]</h1>
+
+<div class="card">
+    <div class="card-body bg-light">
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label class="font-weight-bold mb-0">Date Created:</label>
+                <div>
+                    @Html.DisplayFor(model => model.CreatedAt)<br />
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="font-weight-bold mb-0">Assigned To:</label>
+                <div>
+                    @Html.DisplayFor(model => model.AssignedToUser.DisplayName)<br />
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="font-weight-bold mb-0">Current Status:</label>
+                <div>
+                    @Html.DisplayFor(model => model.Status.StatusLabel)<br />
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="font-weight-bold mb-0">Corrective Action ID:</label>
+                <div>
+                    @Html.DisplayFor(model => model.CorrectiveActionId)<br />
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-3">
+                <label class="font-weight-bold mb-0">Employee:</label>
+                <div>
+                    @Html.DisplayFor(model => model.Employee.DisplayName)<br />
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="font-weight-bold mb-0">Office Symbol:</label>
+                <div>
+                    @Html.DisplayFor(model => model.Employee.DepartmentId)<br />
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="font-weight-bold mb-0">POI:</label>
+                <div>
+                    @Html.DisplayFor(model => model.Employee.PersonnelOfficeIdentifier)<br />
+                </div>
+            </div>
+            <div class="form-group col-md-3">
+                <label class="font-weight-bold mb-0">Email:</label>
+                <div>
+                    @Html.DisplayFor(model => model.Employee.EmailAddress)<br />
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-12 mb-0">
+                <label class="font-weight-bold mb-0 mr-3">Error Details:</label>
+                @Html.DisplayFor(model => model.QmsErrorCode)&nbsp;@Html.DisplayFor(model => model.DataElement)
+            </div>
+            <div class="form-group col-md-12 mb-0">@Html.Raw(@Model.QmsErrorMessageText)</div>
+        </div>
+    </div>
+</div>
+
+<!--
+<div class="form-row">
+    <div class="form-group col-md-12 mb-0">
+        <label class="font-weight-bold mb-0 mr-3">Error Details:</label>
+        @Html.DisplayFor(model => model.QmsErrorCode)&nbsp;@Html.DisplayFor(model => model.DataElement)
+    </div>
+    <div class="form-group col-md-12 mt-0 border p-2 bg-light">@Html.Raw(@Model.QmsErrorMessageText)</div>
+</div>
+
+<!--
+<div class="card mt-5">
+    <div class="card-header font-weight-bold">Error Details:</div>
+    <div class="card-body">
+        <h5 class="card-title h5">@Html.DisplayFor(model => model.QmsErrorCode)&nbsp;@Html.DisplayFor(model => model.DataElement)</h5>
+        <p class="card-text">@Html.Raw(@Model.QmsErrorMessageText)</p>
+    </div>
+</div>
+    -->
+
+<div class="card mt-4">
+    <div class="card-body bg-light">
+        <form asp-controller="DataErrors" asp-action="Edit" method="POST">
+            <div class="form-row mt-3">
+                <div class="form-group col-md-4">
+                    <label for="StatusId" class="font-weight-bold">Select Action<span class="text-danger font-weight-bolder">*</span></label>
+                    <select asp-for="StatusId" class="form-control" asp-items="ViewBag.StatusTypeItems">
+                        <option value="">-- Select action --</option>
+                    </select>
+                    <span asp-validation-for="StatusId" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-8 mb-0">
+                    <label for="Details" class="font-weight-bold">Enter Error Details<span class="text-danger font-weight-bolder">*</span></label>
+                    <textarea asp-for="Details" class="form-control" style="margin-top:0px;" rows="3" cols="40"></textarea>
+                    <span asp-validation-for="Details" class="text-danger"></span>
+                </div>
+            </div>
+            @if (Model.IsAssignable)
+            {
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="AssignedToUserId" class="font-weight-bold">
+                            Select Assignee
+                            <br /><span class="text-danger font-weight-normal">(only select if making an assignment)</span>
+                        </label>
+                        <select asp-for="AssignedToUserId" class="form-control" asp-items="ViewBag.AssignedToUserItems">
+                            <option value="">-- Select assignee --</option>
+                        </select>
+                        <span asp-validation-for="AssignedToUserId" class="text-danger"></span>
+                    </div>
+                </div>
+            }
+            <div class="form-row">
+                <div id="dataErrorsEditAvailableActions" class="form-group col-md-4">
+                    <input type="submit" id="dataErrorsEditFormSubmit" class="btn btn-xs btn-success" value="Submit" />
+                    <a id="dataErrorsEditFormCancel" class="btn btn-xs btn-danger ml-2"
+                       asp-controller="@Model.Controller" asp-action="Index" asp-route-UseCase="@Model.UseCase">Cancel</a>
+                </div>
+            </div>
+            <input asp-for="DataErrorId" />
+            <input asp-for="UseCase" />
+            <input asp-for="EmployeeName" />
+        </form>
+    </div>
+</div>
+
+<hr class="mt-4"/>
+<ul class="nav nav-tabs" id="manageDETabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="view-comments-tab" data-toggle="tab" href="#viewDEComments" role="tab" aria-controls="home" aria-selected="true">View Comments</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="add-comment-tab" data-toggle="tab" href="#addDEComment" role="tab" aria-controls="profile" aria-selected="false">Add Comment</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="history-tab" data-toggle="tab" href="#viewDEHistory" role="tab" aria-controls="history" aria-selected="false">History</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="viewDEComments" role="tabpanel" aria-labelledby="view-comments-tab">
+        @await Component.InvokeAsync("DECommentList")
+    </div>
+    <div class="tab-pane fade" id="addDEComment" role="tabpanel" aria-labelledby="add-comment-tab">
+        @await Component.InvokeAsync("DECommentForm")
+    </div>
+    <div class="tab-pane fade" id="viewDEHistory" role="tabpanel" aria-labelledby="history-tab">
+        @await Component.InvokeAsync("DEHistory")
+    </div>
+</div>
+
+
+@section Scripts {
+    <script src="~/js/qms_de_comments.js"></script>
+    <script>
+        @if (@Model.IsReadOnly) {
+            @:let boolDisabled = new Boolean(true);
+        } else {
+            @:let boolDisabled = new Boolean(false);
+        }
+
+        window.addEventListener("load", function () {
+            document.getElementById("StatusId").disabled = boolDisabled.valueOf();
+            document.getElementById("Details").disabled = boolDisabled.valueOf();
+
+            if (boolDisabled.valueOf() == true) {
+                let dataErrorsEditAvailableActions = document.getElementById("dataErrorsEditAvailableActions");
+                if (dataErrorsEditAvailableActions) {
+                    let dataErrorsEditFormSubmit = document.getElementById("dataErrorsEditFormSubmit");
+                    if (dataErrorsEditFormSubmit) {
+                        dataErrorsEditAvailableActions.removeChild(dataErrorsEditFormSubmit);
+                    }
+                    let dataErrorsEditFormCancel = document.getElementById("dataErrorsEditFormCancel");
+                    if (dataErrorsEditFormCancel) {
+                        dataErrorsEditFormCancel.classList.remove("btn", "btn-xs", "btn-danger");
+                        dataErrorsEditFormCancel.textContent = "Return to List ->";
+                    }
+                }
+            }
+        });
+    </script>
+}

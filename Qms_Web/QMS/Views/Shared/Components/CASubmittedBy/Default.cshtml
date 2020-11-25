@@ -1,0 +1,8 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+<div class="form-group col-md-3">
+    <label for="Details" class="font-weight-bold mb-0">Submitted By:</label>
+    <div>
+        @Html.DisplayFor(model => model.CreatedByUserName)<br />
+        @Html.DisplayFor(model => model.CreatedByOrgLabel)
+    </div>
+</div>

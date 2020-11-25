@@ -1,0 +1,52 @@
+@model QMS.ViewModels.PermissionViewModel;
+
+@if (Context.User.Identity.IsAuthenticated)
+{
+<h1 class="display-4 text-center">Permission Admin</h1>
+
+@if (@Model.ShowAlert == true)
+    {
+<div class="@Model.AlertCssClass" role="alert">
+    @Html.Raw(@Model.AlertMessage)
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+    }
+
+<nav>
+    <div class="nav nav-tabs" id="nav-permissiontab" role="tablist">
+        <a class="@Model.ActivePermissionNavItemNavLink"
+           id="permissions-active-tab"
+           data-toggle="tab"
+           href="#permissions-active-content"
+           role="tab"
+           aria-controls="permissions-active-content"
+           aria-selected="true">
+            Active Permissions
+        </a>
+        <a class="@Model.InactivePermissionNavItemNavLink"
+           id="permissions-inactive-tab"
+           data-toggle="tab"
+           href="#permissions-inactive-content"
+           role="tab"
+           aria-controls="permissions-inactive-content"
+           aria-selected="false">
+            Inactive Permissions
+        </a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-perissions-tab-content">
+    <div class="@Model.ActivePermissionTabPadFade" id="permissions-active-content" role="tabpanel" aria-labelledby="permissions-active-tab">
+        @await Component.InvokeAsync("UAPermissionsActive")
+    </div>
+    <div class="@Model.InactivePermissionTabPadFade" id="permissions-inactive-content" role="tabpanel" aria-labelledby="permissions-inactive-tab">
+        @await Component.InvokeAsync("UAPermissionsInactive")
+    </div>
+</div>
+}
+
+@section Scripts {
+    <script src="~/js/qms_utils.js"></script>
+    <script src="~/js/qms_permissions_202006251719.js"></script>
+}

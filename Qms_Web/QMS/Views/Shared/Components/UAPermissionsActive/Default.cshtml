@@ -1,0 +1,58 @@
+@model List<QmsCore.UIModel.Permission>
+
+    <a class="btn btn btn-outline-primary my-3" href="#create-new-permission" role="button">Create New</a>
+    <div class="container" style="border: 1px solid #004085;">
+        <div class="row alert-primary" style="border-bottom: 1px solid #004085;">
+            <div class="col-1  p-1 font-weight-bold text-center">ID</div>
+            <div class="col-4  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Permission Code</div>
+            <div class="col-5  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Permission Label</div>
+            <div class="col-2  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Available Actions</div>
+        </div>
+        @foreach (var permission in Model)
+        {
+            string permissionLabelUpdateInputId  = $"permission-label-update-input-{permission.PermissionId}";
+            string permissionLabelUpdateHiddenId = $"permission-label-update-hidden-{permission.PermissionId}";
+            <div class="row">
+                <div class="col-1 border p-1">@permission.PermissionId</div>
+                <div class="col-4 border p-1">@permission.PermissionCode</div>
+                <div class="col-5 border p-1">
+                    <input type="text" id="@permissionLabelUpdateInputId" class="form-control form-control-sm border border-primary" name="permissionLabel" value="@permission.PermissionLabel" />
+                </div>
+                <div class="col-1 border-bottom border-left border-top text-center px-0 py-1">
+                    <form asp-controller="Permission" asp-action="UpdatePermission" method="POST">
+                        <input type="submit" class="btn btn-sm btn-outline-primary" value="Update" 
+                               onclick="return processPermssionUpdate(this.form, '@permissionLabelUpdateInputId', '@permissionLabelUpdateHiddenId');"/>
+                        <input type="hidden" name="permissionId" value="@permission.PermissionId" />
+                        <input type="hidden" id="@permissionLabelUpdateHiddenId" name="permissionLabel" value="@permission.PermissionLabel" />
+                    </form>
+                </div>
+                <div class="col-1 border-bottom border-right border-top text-left px-0 py-1">
+                    <form asp-controller="Permission" asp-action="DeactivatePermission" method="POST">
+                        <input type="submit" class="btn btn-sm btn-outline-danger" value="Deactivate" />
+                        <input type="hidden" name="permissionId" value="@permission.PermissionId" />
+                    </form>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="card mt-4" style="border: 1px solid #004085;" id="create-new-permission">
+        <h6 class="card-header font-weight-bold alert-primary" style="border-bottom: 1px solid #004085;">Create New Permission:</h6>
+        <div class="card-body">
+            <form id="createPermissionForm" class="needs-validation" asp-controller="Permission" asp-action="CreatePermission" method="POST" novalidate>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" class="form-control" id="permissionCodeCreate" name="permissionCode" placeholder="PERMISSION_CODE" required>
+                        <div class="invalid-feedback">Please provide a PERMISSION_CODE.</div>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" id="permissionLabelCreate" name="permissionLabel" placeholder="Permission Label" required>
+                        <div class="invalid-feedback">Please provide a Permission Label.</div>
+                    </div>
+                    <div class="col">
+                        <input type="submit" class="btn btn-xs btn-outline-primary" value="Create" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>

@@ -1,0 +1,8 @@
+@model QMS.ViewModels.CorrectiveActionFormViewModel;
+<div class="form-group col-md-3">
+    <label for="NatureOfAction" class="font-weight-bold">Select NOA<span class="text-danger font-weight-bolder">*</span></label>
+    <select asp-for="NatureOfAction" class="form-control" asp-items="ViewBag.NoaSelectItems">
+        <option value="">-- Select nature of action --</option>
+    </select>
+    <span asp-validation-for="NatureOfAction" class="text-danger"></span>
+</div>

@@ -1,0 +1,22 @@
+@model List<QmsCore.UIModel.User>
+
+    <a class="btn btn btn-primary my-3" role="button" asp-area="" asp-controller="User2" asp-action="Create">Create New</a>
+    <div class="container" style="border: 1px solid #004085;">
+        <div class="row alert-primary" style="border-bottom: 1px solid #004085;">
+            <div class="col  p-1 font-weight-bold text-center">Email Address</div>
+            <div class="col  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Display Name</div>
+            <div class="col  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Organization</div>
+            <div class="col  p-1 font-weight-bold text-center" style="border-left: 1px solid #004085;">Manager</div>
+        </div>
+        @foreach (var user in Model)
+        {
+            <div class="row">
+                <div class="col border p-1">                 
+                    <a asp-area="" asp-controller="User2" asp-action="Update" asp-route-UserId="@user.UserId"> @user.EmailAddress</a>
+                </div>
+                <div class="col border p-1">@user.DisplayName</div>
+                <div class="col border p-1">@user.OrganizationName</div>
+                <div class="col border p-1">@user.ManagerName</div>
+            </div>
+        }
+    </div>

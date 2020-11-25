@@ -1,0 +1,181 @@
+@model QMS.ViewModels.RoleViewModel;
+
+<div class="container">
+    <div class="row mt-3 ml-3"><a class="btn btn-primary" href="#create-new-role" role="button">Create New</a></div>
+    <div class="row mt-3 ml-3 p-3 border border-secondary">
+        <div class="col-4">
+            <div class="list-group" id="list-tab" role="tablist">
+                <h4>Roles:</h4>
+                @{
+                    short masterRowCount = 0;
+                    foreach (var role in Model.ActiveRoles)
+                    {
+                        string masterRoleId = $"master-role-{role.RoleId}";
+                        string detailRoleId = $"detail-role-{role.RoleId}";
+                        string ariaControls = $"role-{role.RoleId}";
+
+                        string listGroupItemCssClass = null;
+                        if (Model.JustEditedRoleId == 0)
+                        {
+                            listGroupItemCssClass = (masterRowCount == 0) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action";
+                        }
+                        else
+                        {
+                            listGroupItemCssClass = (role.RoleId == Model.JustEditedRoleId) ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action";
+                        }
+
+                        <a class="@listGroupItemCssClass"
+                           id="@masterRoleId"
+                           data-toggle="list"
+                           href="#@detailRoleId"
+                           role="tab"
+                           aria-controls="@ariaControls">@role.RoleCode</a>
+
+                        masterRowCount++;
+                    }
+                }
+            </div>
+        </div>
+        <div class="col-8">
+            <div class="tab-content" id="nav-tabContent">
+                <h4>Role Details:</h4>
+                @{
+                    short detailRowCount = 0;
+                    foreach (var role in Model.ActiveRoles)
+                    {
+                        string detailRoleId = $"detail-role-{role.RoleId}";
+                        string masterRoleId = $"master-role-{role.RoleId}";
+                        string updateRoleId = $"update-role-{role.RoleId}";
+                        string updateRoleCodeId = $"update-role-code-{role.RoleId}";
+                        string updateRoleLabelId = $"update-role-label-{role.RoleId}";
+
+                        string tabPaneFadeCssClass = null;
+                        if (Model.JustEditedRoleId == 0)
+                        {
+                            tabPaneFadeCssClass = (detailRowCount == 0) ? "tab-pane fade show active" : "tab-pane fade";
+                        }
+                        else
+                        {
+                            tabPaneFadeCssClass = (role.RoleId == Model.JustEditedRoleId) ? "tab-pane fade show active" : "tab-pane fade";
+                        }
+
+                    <div class="@tabPaneFadeCssClass"
+                         id="@detailRoleId"
+                         role="tabpanel"
+                         aria-labelledby="@masterRoleId">
+
+                        <div class="mb-2 text-right">
+                            <form asp-controller="Role" asp-action="DeactivateRole" method="POST">
+                                <input type="submit" class="btn btn-outline-danger" value="Deactivate" />
+                                <input type="hidden" name="roleId" value="@role.RoleId" />
+                            </form>
+                        </div>
+                        <form asp-controller="Role" asp-action="UpdateRole" method="POST">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="form-group row">
+                                        <label for="@updateRoleId" class="col-sm-2 col-form-label">Role ID:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="@updateRoleId" name="roleId" value="@role.RoleId" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="@updateRoleCodeId" class="col-sm-2 col-form-label">Role Code:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="@updateRoleCodeId" name="roleCode" value="@role.RoleCode" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="@updateRoleLabelId" class="col-sm-2 col-form-label">Role Label:</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control border border-primary" id="@updateRoleLabelId" name="roleLabel" value="@role.RoleLabel">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12 border bg-light py-3 pl-4">
+                                        <div class="form-row">
+                                            @{
+                                                        //int count = 0;
+                                                        foreach (var checkboxPermission in role.CheckboxPermissions)
+                                                        {
+                                                            //if (count++ % 2 == 0)
+                                                            //{
+                                            @:</div><div class="form-row">
+                                                            //}
+						                                    string rolePermissionCheckboxId = $"checkbox-role{role.RoleId}-permission-{checkboxPermission.PermissionId}";
+                                                @:<div class="form-group col-md-12 m-0">
+                                                    @:<div class="custom-control custom-checkbox">
+                                                        <input type="checkbox"
+                                                               class="custom-control-input"
+                                                               id="@rolePermissionCheckboxId"
+                                                               name="roleUpdatePermissionsIds"
+                                                               value="@checkboxPermission.PermissionId"
+                                                               @(Html.Raw(checkboxPermission.Selected ? "checked=\"checked\"" : "")) />
+                                                        <label class="custom-control-label" for="@rolePermissionCheckboxId">@checkboxPermission.PermissionCode</label>
+                                                    @:</div>
+                                                @:</div>
+                                                        }
+                                            }
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <button type="submit" class="btn btn-outline-primary">Update</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                            detailRowCount++;
+                        }
+                }
+            </div>
+        </div>
+    </div>
+    <div class="card ml-3 mt-4 w-100" style="border: 1px solid #004085;" id="create-new-role">
+        <h6 class="card-header font-weight-bold alert-primary" style="border-bottom: 1px solid #004085;">Create New Role:</h6>
+        <div class="card-body">
+            <form id="createRoleForm" class="needs-validation" asp-controller="Role" asp-action="CreateRole" method="POST" novalidate>
+                <div class="form-row">
+                    <div class="form-group col-md-12 bg-light border border-secondary py-3 pl-4">
+                        <div class="form-row">
+                            @{
+                    int count = 0;
+                    foreach (var permission in Model.Permissions)
+                    {
+                        if (count++ % 2 == 0)
+                        {
+                            @:</div><div class="form-row">
+                        }
+						string permissionCheckboxId = $"selectedPermissionId_{permission.PermissionId}";
+                                @:<div class="form-group col-md-6 m-0">
+                                    @:<div class="custom-control custom-checkbox">
+                                        <input type="checkbox"
+                                               class="custom-control-input"
+                                               id="@permissionCheckboxId"
+                                               name="selectedPermissions"
+                                               value="@permission.PermissionId"
+                                               @(Html.Raw(permission.Selected ? "checked=\"checked\"" : ""))/>
+                                        <label class="custom-control-label" for="@permissionCheckboxId">@permission.PermissionCode</label>
+                                    @:</div>
+                                @:</div>
+                    }
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <input type="text" class="form-control" id="roleCodeCreate" name="roleCode" placeholder="ROLE_CODE" required>
+                        <div class="invalid-feedback">Please provide a ROLE_CODE.</div>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" id="roleLabelCreate" name="roleLabel" placeholder="Role Label" required>
+                        <div class="invalid-feedback">Please provide a Role Label.</div>
+                    </div>
+                    <div class="col">
+                        <input type="submit" class="btn btn-xs btn-outline-primary" value="Create" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
